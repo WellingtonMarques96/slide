@@ -16,8 +16,13 @@ export default class Slide {
   }
 
   onStart(event) {
-    event.preventDefault();
-    this.dist.startX = event.clientX;
+    if (event.type === "mousedown") {
+      event.preventDefault();
+      this.dist.startX = event.clientX;
+    } else {
+      this.dist.startX = event.changedTouches[0].clientX;
+    }
+
     this.wrapper.addEventListener("mousemove", this.onMove);
   }
 
@@ -33,7 +38,9 @@ export default class Slide {
 
   addSlideEvents() {
     this.wrapper.addEventListener("mousedown", this.onStart);
+    this.wrapper.addEventListener("touchstart", this.onStart);
     this.wrapper.addEventListener("mouseup", this.onEnd);
+    this.wrapper.addEventListener("touchend", this.onEnd);
   }
 
   bindEvents() {
